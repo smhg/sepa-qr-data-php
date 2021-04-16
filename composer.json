@@ -21,7 +21,6 @@
         "lint": "phpmd src,tests ansi phpmd.xml"
     },
     "require-dev": {
-        "endroid/qr-code": "^4",
         "phpmd/phpmd": "^2.8",
         "phpunit/phpunit": "^7||^9"
     }
