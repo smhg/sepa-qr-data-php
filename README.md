@@ -19,17 +19,15 @@ $sepaQrData = new SepaQrData();
 $sepaQrData
   ->setName('Name of the beneficiary')
   ->setIban('BE123456789123456789')
-  ->setAmount(100) // The amount in Euro
-  ->setRemittanceText('Invoice 123456789');
+  ->setAmount(100); // The amount in Euro
 
 $result = Builder::create()
     ->writer(new PngWriter())
-    ->writerOptions([])
     ->data($sepaQrData) // calls $sepaQrData->__toString()
     ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
     ->build();
 ```
-The [endroid/qr-code](https://github.com/endroid/qr-code) project contains information on how to use output (`$result`).
+The [endroid/qr-code](https://github.com/endroid/qr-code) project lists the different ways the output (`$result`) can be used.
 
 ## Methods
 
