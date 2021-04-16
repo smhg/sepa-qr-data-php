@@ -1,6 +1,8 @@
 # sepa-qr-data [![CI](https://github.com/smhg/sepa-qr-data-php/workflows/CI/badge.svg)](https://github.com/smhg/sepa-qr-data-php/actions)
 Generates SEPA QR code data based on the [European Payments Council's standard](http://www.europeanpaymentscouncil.eu/index.cfm/knowledge-bank/epc-documents/quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer/epc069-12-quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer1/). QR codes using this data are scannable by, for instance, many mobile banking apps and can be used on invoices etc.
 
+> **Migrating from smhg/sepa-qr?** Follow the [steps below](https://github.com/smhg/sepa-qr-data-php#migration-from-smhgsepa-qr).
+
 ## Installation
 ```bash
 composer require smhg/sepa-qr-data
@@ -66,3 +68,42 @@ Set the AT-05 remittance information (unstructured).
 
 ### setInformation($information)
 Set the beneficiary to originator information.
+
+## Migration from smhg/sepa-qr
+This project is a continuation of [smhg/sepa-qr](https://github.com/smhg/sepa-qr-php), basically adding PHP8 support. The main difference is the decoupling with the endroid/qr-code library. This project now generates the appropriate QR code data, which can be used with any QR code generating library.
+
+Follow these steps to migrate:
+
+### Remove smhg/sepa-qr
+```bash
+composer remove smhg/sepa-qr
+```
+
+### Install smhg/sepa-qr-data and endroid/qr-code
+
+```bash
+composer require smhg/sepa-qr-data endroid/qr-code
+```
+
+### Replace use declarations
+```diff
+-use \SepaQr\SepaQr;
++use \SepaQr\Data as SepaQrData;
++use \Endroid\QrCode\Builder\Builder;
++use \Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
++use \Endroid\QrCode\Writer\PngWriter;
+```
+
+### Adapt QR code generation accordingly
+```php
+$sepaQrData = new SepaQrData();
+// $sepaQrData->set...
+
+$qrCode = Builder::create()
+    ->writer(new PngWriter())
+    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
+    ->data($sepaQrData) // calls $sepaQrData->__toString()
+    ->build();
+
+// ... $qrCode->getString() ...
+```
