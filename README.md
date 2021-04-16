@@ -1,43 +1,36 @@
-# sepa-qr-php [![CI](https://github.com/smhg/sepa-qr-php/workflows/CI/badge.svg)](https://github.com/smhg/sepa-qr-php/actions)
-Generates SEPA QR codes based on the [European Payments Council's standard](http://www.europeanpaymentscouncil.eu/index.cfm/knowledge-bank/epc-documents/quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer/epc069-12-quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer1/). These QR codes are scannable by many mobile banking apps. Because app support is at a decent level, it is a good idea to print such a code on an invoice.
-
-Extends [endroid/qr-code](https://github.com/endroid/QrCode) preserving all its functionality in case lower level QR code manipulation is needed.
-
-> **PHP 5.6 and <7.1 support:** use version 2.x of this library.
+# sepa-qr-php [![CI](https://github.com/smhg/sepa-qr-data-php/workflows/CI/badge.svg)](https://github.com/smhg/sepa-qr-data-php/actions)
+Generates SEPA QR code data based on the [European Payments Council's standard](http://www.europeanpaymentscouncil.eu/index.cfm/knowledge-bank/epc-documents/quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer/epc069-12-quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer1/). QR codes using this data are, for instance, scannable by many mobile banking apps and can be used on invoices etc.
 
 ## Installation
 ```bash
-composer require smhg/sepa-qr
+composer require smhg/sepa-qr-data
 ```
+You'll probably also want to install a QR code library like [endroid/qr-code](https://github.com/endroid/qr-code).
 
-## Example
+## Example using endroid/qr-code
 ```php
-use SepaQr\SepaQr;
+use SepaQr\Data as SepaQrData;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
+use Endroid\QrCode\Writer\PngWriter;
 
-$sepaQr = new SepaQr();
+$sepaQrData = new SepaQrData();
 
-$sepaQr
+$sepaQrData
   ->setName('Name of the beneficiary')
   ->setIban('BE123456789123456789')
   ->setAmount(100) // The amount in Euro
-  ->setRemittanceText('Invoice 123456789')
-  ->setSize(300);
+  ->setRemittanceText('Invoice 123456789');
 
-// Output to browser:
-header('Content-Type: ' . $sepaQr->getContentType());
-echo $sepaQr->writeString();
-
-// Or embed as image:
-echo '<img src="' . $sepaQr->writeDataUri() . '">';
-
-// Or generate a temporary file:
-$tmpFileName = tempnam('/tmp', 'prefix');
-$tmpFile = fopen($tmpFileName, 'w');
-fwrite($tmpFile, $sepaQr->writeString());
-// ... add file to your PDF
-fclose($tmpFile);
-unlink($tmpFileName);
+$result = Builder::create()
+    ->writer(new PngWriter())
+    ->writerOptions([])
+    ->data($sepaQrData) // calls $sepaQrData->__toString()
+    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
+    ->build();
 ```
+The [endroid/qr-code](https://github.com/endroid/qr-code) project contains information on how to use output (`$result`).
+
 ## Methods
 
 ### setServiceTag($serviceTag = 'BCD')
