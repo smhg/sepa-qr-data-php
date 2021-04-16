@@ -1,5 +1,6 @@
 # sepa-qr-data [![CI](https://github.com/smhg/sepa-qr-data-php/workflows/CI/badge.svg)](https://github.com/smhg/sepa-qr-data-php/actions)
-Generates SEPA QR code data based on the [European Payments Council's standard](http://www.europeanpaymentscouncil.eu/index.cfm/knowledge-bank/epc-documents/quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer/epc069-12-quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer1/). QR codes using this data are scannable by, for instance, many mobile banking apps and can be used on invoices etc.
+
+Generates the text/data to create a SEPA QR code based on the [European Payments Council's standard](http://www.europeanpaymentscouncil.eu/index.cfm/knowledge-bank/epc-documents/quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer/epc069-12-quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer1/). QR codes using this data are scannable by, for instance, many mobile banking apps and can be used on invoices etc.
 
 > **Migrating from smhg/sepa-qr?** Follow the [steps below](https://github.com/smhg/sepa-qr-data-php#migration-from-smhgsepa-qr).
 
@@ -7,26 +8,41 @@ Generates SEPA QR code data based on the [European Payments Council's standard](
 ```bash
 composer require smhg/sepa-qr-data
 ```
-You'll probably also want to install a QR code library like [endroid/qr-code](https://github.com/endroid/qr-code).
 
-## Example using endroid/qr-code
+## Usage
+
 ```php
 use SepaQr\Data as SepaQrData;
+
+$sepaQrData = (new SepaQrData())
+    ->setName('Name of the beneficiary')
+    ->setIban('BE123456789123456789')
+    ->setAmount(100) // The amount in Euro
+;
+echo $sepaQrData; // calls $sepaQrData->__toString()
+```
+This will output:
+```
+BCD
+002
+1
+SCT
+
+Name of the beneficiary
+BE123456789123456789
+EUR100.00
+```
+
+You can now create a QR code using (for example) [endroid/qr-code](https://github.com/endroid/qr-code):
+```php
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
 use Endroid\QrCode\Writer\PngWriter;
 
-$sepaQrData = new SepaQrData();
-
-$sepaQrData
-  ->setName('Name of the beneficiary')
-  ->setIban('BE123456789123456789')
-  ->setAmount(100); // The amount in Euro
-
 $result = Builder::create()
     ->writer(new PngWriter())
     ->data($sepaQrData) // calls $sepaQrData->__toString()
-    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
+    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium()) // "medium" is the standard for EPC QR codes, but endroid/qr-code's default is "low"
     ->build();
 ```
 The [endroid/qr-code](https://github.com/endroid/qr-code) project lists the different ways the output (`$result`) can be used.
