@@ -80,7 +80,7 @@ EOF;
         $this->assertSame($expectedString, $message);
     }
 
-    public function testGetWriter(): void
+    public function testToString(): void
     {
         $sepaQrData = new Data();
 
