@@ -46,25 +46,25 @@ Set the character set. Available constants are **UTF_8**, **ISO8859_5**, **ISO88
 Set the identification code. Currently (?) only one value is allowed: SCT.
 
 ### setBic($bic)
-Set the AT-23 BIC of the beneficiary bank.
+Set the BIC of the beneficiary bank.
 
 ### setName($name)
-Set the AT-21 name of the beneficiary
+Set the name of the beneficiary.
 
 ### setIban($iban)
-Set the AT-20 account number of the beneficiary. Only IBAN is allowed.
+Set the account number of the beneficiary. Only IBAN is allowed.
 
 ### setAmount($amount)
-Set the AT-04 amount of the credit transfer. Currently (?) only amounts in Euro are allowed.
+Set the amount of the credit transfer. Currently (?) only amounts in Euro are allowed.
 
 ### setPurpose($purpose)
-Set the AT-44 purpose of the credit transfer.
+Set the purpose of the credit transfer.
 
 ### setRemittanceReference($remittanceReference)
-Set the AT-05 remittance information (structured). Creditor reference (ISO 11649) RF creditor reference may be used.
+Set the remittance information (structured). Creditor reference (ISO 11649) RF creditor reference may be used.
 
 ### setRemittanceText($remittanceText)
-Set the AT-05 remittance information (unstructured).
+Set the remittance information (unstructured).
 
 ### setInformation($information)
 Set the beneficiary to originator information.
