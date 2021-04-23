@@ -19,9 +19,9 @@ class DataTest extends TestCase
     {
         $sepaQrData = new Data();
 
-        $sepaQrData->setCharacterSet(Data::UTF_8);
+        $sepaQrData->setCharacterSet(Data::ISO8859_1);
 
-        $this->expectException('SepaQr\Exception');
+        $this->expectException(\TypeError::class);
 
         $sepaQrData->setCharacterSet('UTF8');
     }
@@ -30,7 +30,7 @@ class DataTest extends TestCase
     {
         $sepaQrData = new Data();
 
-        $this->expectException('SepaQr\Exception');
+        $this->expectException(Exception::class);
 
         $sepaQrData->setRemittanceReference('ABC')
             ->setRemittanceText('DEF');

@@ -45,10 +45,8 @@ class Data
         return $this;
     }
 
-    public function setCharacterSet($characterSet = self::UTF_8)
+    public function setCharacterSet(int $characterSet = self::UTF_8)
     {
-        $characterSet = (int)$characterSet;
-
         if (!in_array($characterSet, range(1, 8))) {
             throw new Exception('Invalid character set');
         }
