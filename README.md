@@ -26,7 +26,7 @@ $sepaQrData
 $result = Builder::create()
     ->writer(new PngWriter())
     ->data($sepaQrData) // calls $sepaQrData->__toString()
-    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
+    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium()) // "medium" is the standard for EPC QR codes, but endroid/qr-code's default is "low"
     ->build();
 ```
 The [endroid/qr-code](https://github.com/endroid/qr-code) project lists the different ways the output (`$result`) can be used.
