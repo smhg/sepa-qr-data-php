@@ -11,27 +11,35 @@ composer require smhg/sepa-qr-data
 ```
 You'll probably also want to install a QR code library like [endroid/qr-code](https://github.com/endroid/qr-code).
 
-## Example using endroid/qr-code
+## Usage
+### Using endroid/qr-code
 ```php
 use SepaQr\Data;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
 use Endroid\QrCode\Writer\PngWriter;
+```
 
-$sepaQrData = Data::create()
+```php
+// create payment data
+$paymentData = Data::create()
   ->setName('Name of the beneficiary')
   ->setIban('BE123456789123456789')
   ->setAmount(100); // The amount in Euro
 
-$result = Builder::create()
-    ->writer(new PngWriter())
-    ->data($sepaQrData) // calls $sepaQrData->__toString()
-    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium()) // "medium" is the standard for EPC QR codes, but endroid/qr-code's default is "low"
+// create QR code
+$qrCode = Builder::create()
+    ->data($paymentData)
+    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
     ->build();
-```
-The [endroid/qr-code](https://github.com/endroid/qr-code) project lists the different ways the output (`$result`) can be used.
 
-## Methods
+// save as image
+$qrCode->saveToFile('qrcode.png');
+
+```
+**Note:** [endroid/qr-code](https://github.com/endroid/qr-code) lists more ways to use the output (`$qrCode`).
+
+## API
 
 ### setServiceTag($serviceTag = 'BCD')
 Set the service tag. Currently (?) only one value is allowed: BCD.
@@ -96,13 +104,12 @@ composer require smhg/sepa-qr-data endroid/qr-code
 
 ### Adapt QR code generation accordingly
 ```php
-$sepaQrData = Data::create();
+$paymentData = Data::create();
 // ->set...
 
 $qrCode = Builder::create()
-    ->writer(new PngWriter())
     ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
-    ->data($sepaQrData) // calls $sepaQrData->__toString()
+    ->data($paymentData)
     ->build();
 
 // ... $qrCode->getString() ...
