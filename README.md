@@ -96,7 +96,7 @@ Set the service tag. Currently (?) only one value is allowed: BCD.
 #### setVersion($version = 2)
 Set the SEPA QR standard version. In version 1 a BIC is mandatory. In version 2 a BIC is only mandatory outside EEA countries.
 
-#### setCharacterSet($characterSet = SepaQrData::UTF_8)
+#### setCharacterSet($characterSet = Data::UTF_8)
 Set the character set. Available constants are `UTF_8`, `ISO8859_5`, `ISO8859_1`, `ISO8859_7`, `ISO8859_2`, `ISO8859_10`, `ISO8859_4` or `ISO8859_15`.
 
 #### setIdentification($identification = 'SCT')
