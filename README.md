@@ -9,7 +9,10 @@ A QR code using this data can, for instance, be displayed on an invoice and be s
 ```bash
 composer require smhg/sepa-qr-data
 ```
-You'll probably also want to install a QR code library like [endroid/qr-code](https://github.com/endroid/qr-code).
+You'll probably also want to install a QR code library like [endroid/qr-code](https://github.com/endroid/qr-code):
+```bash
+composer require endroid/qr-code
+```
 
 ## Usage
 ### Using endroid/qr-code
@@ -41,6 +44,30 @@ $qrCode->saveToFile('qrcode.png');
 
 ## API
 
+#### setName($name)
+**Required.** Set the name of the beneficiary.
+
+#### setIban($iban)
+**Required.** Set the account number of the beneficiary. Only IBAN is allowed.
+
+#### setAmount($amount)
+Set the amount of the credit transfer. Currently (?) only amounts in Euro are allowed.
+
+#### setBic($bic)
+Set the BIC of the beneficiary bank.
+
+#### setRemittanceReference($remittanceReference)
+Set the remittance information (structured). Creditor reference (ISO 11649) RF creditor reference may be used.
+
+#### setRemittanceText($remittanceText)
+Set the remittance information (unstructured).
+
+#### setPurpose($purpose)
+Set the purpose of the credit transfer.
+
+#### setInformation($information)
+Set the beneficiary to originator information.
+
 #### setServiceTag($serviceTag = 'BCD')
 Set the service tag. Currently (?) only one value is allowed: BCD.
 
@@ -53,47 +80,23 @@ Set the character set. Available constants are `UTF_8`, `ISO8859_5`, `ISO8859_1`
 #### setIdentification($identification = 'SCT')
 Set the identification code. Currently (?) only one value is allowed: SCT.
 
-#### setBic($bic)
-Set the BIC of the beneficiary bank.
-
-#### setName($name)
-Set the name of the beneficiary.
-
-#### setIban($iban)
-Set the account number of the beneficiary. Only IBAN is allowed.
-
-#### setAmount($amount)
-Set the amount of the credit transfer. Currently (?) only amounts in Euro are allowed.
-
-#### setPurpose($purpose)
-Set the purpose of the credit transfer.
-
-#### setRemittanceReference($remittanceReference)
-Set the remittance information (structured). Creditor reference (ISO 11649) RF creditor reference may be used.
-
-#### setRemittanceText($remittanceText)
-Set the remittance information (unstructured).
-
-#### setInformation($information)
-Set the beneficiary to originator information.
-
 ## Migration from smhg/sepa-qr
 This project is a continuation of [smhg/sepa-qr](https://github.com/smhg/sepa-qr-php), decoupling QR code rendering. Different QR rendering libraries offer different features and support different PHP versions. This project now generates the appropriate QR code data, which can be supplied to the QR code rendering library of your choice.
 
 Follow these steps to migrate:
 
-1. Remove smhg/sepa-qr
+**1. Remove smhg/sepa-qr**
 ```bash
 composer remove smhg/sepa-qr
 ```
 
-2. Install smhg/sepa-qr-data and endroid/qr-code
+**2. Install smhg/sepa-qr-data and endroid/qr-code**
 
 ```bash
 composer require smhg/sepa-qr-data endroid/qr-code
 ```
 
-3. Replace use declarations
+**3. Replace/add use declarations**
 ```diff
 -use \SepaQr\SepaQr;
 +use \SepaQr\Data;
@@ -102,7 +105,7 @@ composer require smhg/sepa-qr-data endroid/qr-code
 +use \Endroid\QrCode\Writer\PngWriter;
 ```
 
-4. Adapt QR code generation accordingly
+**4. Adapt QR code generation accordingly**
 ```php
 $paymentData = Data::create();
 // ->set...
