@@ -13,14 +13,12 @@ You'll probably also want to install a QR code library like [endroid/qr-code](ht
 
 ## Example using endroid/qr-code
 ```php
-use SepaQr\Data as SepaQrData;
+use SepaQr\Data;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
 use Endroid\QrCode\Writer\PngWriter;
 
-$sepaQrData = new SepaQrData();
-
-$sepaQrData
+$sepaQrData = Data::create()
   ->setName('Name of the beneficiary')
   ->setIban('BE123456789123456789')
   ->setAmount(100); // The amount in Euro
@@ -90,7 +88,7 @@ composer require smhg/sepa-qr-data endroid/qr-code
 ### Replace use declarations
 ```diff
 -use \SepaQr\SepaQr;
-+use \SepaQr\Data as SepaQrData;
++use \SepaQr\Data;
 +use \Endroid\QrCode\Builder\Builder;
 +use \Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
 +use \Endroid\QrCode\Writer\PngWriter;
@@ -98,8 +96,8 @@ composer require smhg/sepa-qr-data endroid/qr-code
 
 ### Adapt QR code generation accordingly
 ```php
-$sepaQrData = new SepaQrData();
-// $sepaQrData->set...
+$sepaQrData = Data::create();
+// ->set...
 
 $qrCode = Builder::create()
     ->writer(new PngWriter())

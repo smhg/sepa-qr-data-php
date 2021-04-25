@@ -7,11 +7,14 @@ use SepaQr\Exception;
 
 class DataTest extends TestCase
 {
-    public function testConstructor(): void
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    public function testCreate(): void
     {
         $this->assertInstanceOf(
             Data::class,
-            new Data()
+            Data::create()
         );
     }
 

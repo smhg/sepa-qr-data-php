@@ -23,6 +23,11 @@ class Data
         'identification' => 'SCT'
     );
 
+    public static function create()
+    {
+        return new self();
+    }
+
     public function setServiceTag(string $serviceTag = 'BCD')
     {
         if ($serviceTag !== 'BCD') {
