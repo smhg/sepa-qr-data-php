@@ -23,30 +23,33 @@ $paymentData = Data::create()
 ```
 
 ### With [endroid/qr-code](https://github.com/endroid/qr-code)
+#### Installation 
 ```bash
 composer require endroid/qr-code
 ```
 
+#### Usage
 ```php
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
 ```
 
 ```php
-$qrCode = Builder::create()
-    ->data($paymentData) // payment data created above
-    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium()) // required level
-    ->build();
-
-$qrCode->saveToFile('payment.png');
+Builder::create()
+    ->data($paymentData)
+    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium()) // required by EPC standard
+    ->build()
+    ->saveToFile('payment.png');
 ```
-**Note:** endroid/qr-code lists [more ways](https://github.com/endroid/qr-code#usage-working-with-results) to use the output (`$qrCode`).
+**Note:** endroid/qr-code lists [more ways](https://github.com/endroid/qr-code#usage-working-with-results) to render.
 
 ### With [chillerlan/php-qrcode](https://github.com/chillerlan/php-qrcode)
+#### Installation
 ```bash
 composer require chillerlan/php-qrcode
 ```
 
+#### Usage
 ```php
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
@@ -54,12 +57,10 @@ use chillerlan\QRCode\QROptions;
 
 ```php
 $qrOptions = new QROptions([
-	'eccLevel'   => QRCode::ECC_M,
+    'eccLevel' => QRCode::ECC_M // required by EPC standard
 ]);
 
-$qrCode = new QRCode($qrOptions);
-
-$qrCode->render($paymentData, 'payment.png');
+(new QRCode($qrOptions))->render($paymentData, 'payment.png');
 ```
 **Note:** chillerlan/php-qrcode lists [more ways](https://github.com/chillerlan/php-qrcode/wiki/Advanced-usage) to render.
 
