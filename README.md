@@ -97,7 +97,7 @@ Set the service tag. Currently (?) only one value is allowed: BCD.
 Set the SEPA QR standard version. In version 1 a BIC is mandatory. In version 2 a BIC is only mandatory outside EEA countries.
 
 #### setCharacterSet($characterSet = Data::UTF_8)
-Set the character set. Available constants are `UTF_8`, `ISO8859_5`, `ISO8859_1`, `ISO8859_7`, `ISO8859_2`, `ISO8859_10`, `ISO8859_4` or `ISO8859_15`.
+Set the character set. Available constants are `UTF_8`, `ISO8859_5`, `ISO8859_1`, `ISO8859_7`, `ISO8859_2`, `ISO8859_10`, `ISO8859_4` or `ISO8859_15`. Remember to also use/set this character set in the surrounding parts of your application (including endroid/qr-code).
 
 #### setIdentification($identification = 'SCT')
 Set the identification code. Currently (?) only one value is allowed: SCT.
