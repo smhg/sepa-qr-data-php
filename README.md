@@ -9,38 +9,59 @@ A QR code using this data can, for instance, be displayed on an invoice and be s
 ```bash
 composer require smhg/sepa-qr-data
 ```
-You'll probably also want to install a QR code library like [endroid/qr-code](https://github.com/endroid/qr-code):
-```bash
-composer require endroid/qr-code
-```
 
 ## Usage
-### Using endroid/qr-code
 ```php
 use SepaQr\Data;
-use Endroid\QrCode\Builder\Builder;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
-use Endroid\QrCode\Writer\PngWriter;
 ```
 
 ```php
-// create payment data
 $paymentData = Data::create()
   ->setName('Name of the beneficiary')
   ->setIban('BE123456789123456789')
   ->setAmount(100); // The amount in Euro
+```
 
-// create QR code
+### With [endroid/qr-code](https://github.com/endroid/qr-code)
+```bash
+composer require endroid/qr-code
+```
+
+```php
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
+```
+
+```php
 $qrCode = Builder::create()
-    ->data($paymentData)
-    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
+    ->data($paymentData) // payment data created above
+    ->errorCorrectionLevel(new ErrorCorrectionLevelMedium()) // required level
     ->build();
 
-// save as image
-$qrCode->saveToFile('qrcode.png');
-
+$qrCode->saveToFile('payment.png');
 ```
-**Note:** [endroid/qr-code](https://github.com/endroid/qr-code) lists more ways to use the output (`$qrCode`).
+**Note:** endroid/qr-code lists [more ways](https://github.com/endroid/qr-code#usage-working-with-results) to use the output (`$qrCode`).
+
+### With [chillerlan/php-qrcode](https://github.com/chillerlan/php-qrcode)
+```bash
+composer require chillerlan/php-qrcode
+```
+
+```php
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+```
+
+```php
+$qrOptions = new QROptions([
+	'eccLevel'   => QRCode::ECC_M,
+]);
+
+$qrCode = new QRCode($qrOptions);
+
+$qrCode->render($paymentData, 'payment.png');
+```
+**Note:** chillerlan/php-qrcode lists [more ways](https://github.com/chillerlan/php-qrcode/wiki/Advanced-usage) to render.
 
 ## API
 
