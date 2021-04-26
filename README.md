@@ -124,7 +124,6 @@ composer require smhg/sepa-qr-data endroid/qr-code
 +use \SepaQr\Data;
 +use \Endroid\QrCode\Builder\Builder;
 +use \Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
-+use \Endroid\QrCode\Writer\PngWriter;
 ```
 
 **4. Adapt QR code generation accordingly**
@@ -132,10 +131,9 @@ composer require smhg/sepa-qr-data endroid/qr-code
 $paymentData = Data::create();
 // ->set...
 
-$qrCode = Builder::create()
+Builder::create()
     ->errorCorrectionLevel(new ErrorCorrectionLevelMedium())
     ->data($paymentData)
-    ->build();
-
-// ... $qrCode->getString() ...
+    ->build()
+    ->saveToFile('payment.png');
 ```
