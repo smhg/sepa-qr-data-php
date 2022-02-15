@@ -57,6 +57,17 @@ class DataTest extends TestCase
             ->setRemittanceText('DEF');
     }
 
+    public function testSetPurpose(): void
+    {
+        $sepaQrData = new Data();
+
+        $sepaQrData->setPurpose('ACMT');
+
+        $this->expectException(Exception::class);
+
+        $sepaQrData->setPurpose('custom');
+    }
+
     public function testEncodeMessage(): void
     {
         $sepaQrData = new Data();

@@ -129,6 +129,10 @@ class Data
 
     public function setPurpose($purpose)
     {
+        if (strlen($purpose) !== 4) {
+            throw new Exception('Purpose code can only be 4 characters');
+        }
+
         $this->sepaValues['purpose'] = $purpose;
 
         return $this;
