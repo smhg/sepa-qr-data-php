@@ -47,6 +47,17 @@ class DataTest extends TestCase
         $sepaQrData->setCharacterSet('UTF8');
     }
 
+    public function testSetCurrency(): void
+    {
+        $sepaQrData = new Data();
+
+        $sepaQrData->setCurrency('USD');
+
+        $this->expectException(Exception::class);
+
+        $sepaQrData->setCurrency('ABCDEF');
+    }
+
     public function testSetRemittance(): void
     {
         $sepaQrData = new Data();

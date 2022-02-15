@@ -112,6 +112,17 @@ class Data
         return $this;
     }
 
+    public function setCurrency($currency)
+    {
+        if (strlen($currency) !== 3) {
+            throw new Exception('Currency of the credit transfer can only be a valid ISO 4217 code');
+        }
+
+        $this->sepaValues['currency'] = $currency;
+
+        return $this;
+    }
+
     public function setAmount($amount)
     {
         if ($amount < 0.01) {
@@ -185,6 +196,7 @@ class Data
             'bic' => '',
             'name' => '',
             'iban' => '',
+            'currency' => 'EUR',
             'amount' => 0,
             'purpose' => '',
             'remittanceReference' => '',
@@ -214,7 +226,7 @@ class Data
             $values['bic'],
             $values['name'],
             $values['iban'],
-            self::formatMoney('EUR', $values['amount']),
+            self::formatMoney($values['currency'], $values['amount']),
             $values['purpose'],
             $values['remittanceReference'],
             $values['remittanceText'],
