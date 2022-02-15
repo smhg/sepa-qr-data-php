@@ -10,6 +10,24 @@ class DataTest extends TestCase
     /**
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
+    public function testFormatMoney(): void
+    {
+        $this->assertEquals(
+            'EUR100.00',
+            Data::formatMoney('EUR', 100),
+            'An amount should be formatted'
+        );
+
+        $this->assertEquals(
+            'EUR',
+            Data::formatMoney('EUR'),
+            'A missing amount should only return the currency'
+        );
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function testCreate(): void
     {
         $this->assertInstanceOf(

@@ -1,10 +1,6 @@
 <?php
 namespace SepaQr;
 
-function formatMoney($value) {
-    return sprintf('EUR%s', number_format($value, 2, '.', ''));
-}
-
 class Data
 {
     const UTF_8 = 1;
@@ -22,6 +18,14 @@ class Data
         'characterSet' => 1,
         'identification' => 'SCT'
     );
+
+    public static function formatMoney($currency = 'EUR', $value = 0) {
+        return sprintf(
+            '%s%s',
+            strtoupper($currency),
+            $value > 0 ? number_format($value, 2, '.', '') : ''
+        );
+    }
 
     public static function create()
     {
@@ -206,7 +210,7 @@ class Data
             $values['bic'],
             $values['name'],
             $values['iban'],
-            $values['amount'] > 0 ? formatMoney($values['amount']) : '',
+            self::formatMoney('EUR', $values['amount']),
             $values['purpose'],
             $values['remittanceReference'],
             $values['remittanceText'],
