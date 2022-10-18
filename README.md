@@ -21,6 +21,7 @@ $paymentData = Data::create()
   ->setIban('BE123456789123456789')
   ->setAmount(100); // The amount in Euro
 ```
+After this, you can choose your preferred QR code library and use this data as the input. Below are 2 examples.
 
 ### With [endroid/qr-code](https://github.com/endroid/qr-code)
 #### Installation 
