@@ -44,7 +44,7 @@ class DataTest extends TestCase
 
         $this->expectException(\TypeError::class);
 
-        $sepaQrData->setCharacterSet('UTF8');
+        $sepaQrData->setCharacterSet('UTF8'); // @phpstan-ignore-line
     }
 
     public function testSetCurrency(): void
@@ -143,9 +143,10 @@ EOF;
 
     public function testSetVersionExceptionCase2(): void
     {
+        $sepaQrData = new Data();
+
         $this->expectException(\TypeError::class);
 
-        $sepaQrData = new Data();
-        $sepaQrData->setVersion('v1');
+        $sepaQrData->setVersion('v1'); // @phpstan-ignore-line
     }
 }
