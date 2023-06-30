@@ -231,7 +231,7 @@ class Data
             $values['bic'],
             $values['name'],
             $values['iban'],
-            self::formatMoney($values['currency'], $values['amount']),
+            self::formatMoney((string)$values['currency'], (float)$values['amount']),
             $values['purpose'],
             $values['remittanceReference'],
             $values['remittanceText'],
