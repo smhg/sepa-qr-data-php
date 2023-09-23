@@ -47,6 +47,18 @@ class DataTest extends TestCase
         $sepaQrData->setCharacterSet('UTF8'); // @phpstan-ignore-line
     }
 
+    public function testSetBic(): void
+    {
+        $sepaQrData = new Data();
+
+        $sepaQrData->setBic('ABCDEFGH'); // 8 characters
+        $sepaQrData->setBic('ABCDEFGHIJK'); // 11 characters
+
+        $this->expectException(Exception::class);
+
+        $sepaQrData->setBic('ABCDEFGHI'); // 9 characters
+    }
+
     public function testSetCurrency(): void
     {
         $sepaQrData = new Data();
