@@ -83,7 +83,7 @@ class Data
     public function setBic(string $bic): static
     {
         if (strlen($bic) !== 8 && strlen($bic) !== 11) {
-            throw new Exception('BIC of the beneficiary bank can be 8 or 11 characters');
+            throw new Exception('BIC of the beneficiary can only be 8 or 11 characters');
         }
 
         $this->sepaValues['bic'] = $bic;
