@@ -5,6 +5,9 @@ use PHPUnit\Framework\TestCase;
 use SepaQr\Data;
 use SepaQr\Exception;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class DataTest extends TestCase
 {
     /**
