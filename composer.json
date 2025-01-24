@@ -24,6 +24,7 @@
     "require-dev": {
         "phpmd/phpmd": "^2.8",
         "phpunit/phpunit": "^7||^9",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-deprecation-rules": "^1.2"
     }
 }
