@@ -22,9 +22,9 @@
         "analyze": "phpstan analyze"
     },
     "require-dev": {
-        "phpmd/phpmd": "^2.8",
-        "phpunit/phpunit": "^7||^9",
-        "phpstan/phpstan": "^1.10",
-        "phpstan/phpstan-deprecation-rules": "^1.2"
+        "phpmd/phpmd": "@stable",
+        "phpunit/phpunit": "^9",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-deprecation-rules": "^2.0"
     }
 }

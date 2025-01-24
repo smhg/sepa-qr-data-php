@@ -4,14 +4,15 @@ namespace SepaQr\Test;
 use PHPUnit\Framework\TestCase;
 use SepaQr\Data;
 use SepaQr\Exception;
+use Stringable;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  */
 class DataTest extends TestCase
 {
     /**
-     * @SuppressWarnings(PHPMD.StaticAccess)
+     * @SuppressWarnings("PHPMD.StaticAccess")
      */
     public function testFormatMoney(): void
     {
@@ -29,7 +30,7 @@ class DataTest extends TestCase
     }
 
     /**
-     * @SuppressWarnings(PHPMD.StaticAccess)
+     * @SuppressWarnings("PHPMD.StaticAccess")
      */
     public function testCreate(): void
     {
@@ -140,12 +141,11 @@ EOF;
 
     public function testToString(): void
     {
-        $sepaQrData = new Data();
+        $sepaQrData = (new Data())
+            ->setName('Test')
+            ->setIban('ABC');
 
-        $this->assertIsString(
-            (string)$sepaQrData->setName('Test')
-                ->setIban('ABC')
-        );
+        $this->assertInstanceOf(Stringable::class, $sepaQrData);
     }
 
     public function testSetVersionExceptionCase1(): void
