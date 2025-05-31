@@ -13,9 +13,9 @@ class DataTest extends TestCase
 
         $sepaQrData->setCharacterSet(Data::ISO8859_1);
 
-        $this->expectException(\TypeError::class);
+        $this->expectException(Exception::class);
 
-        $sepaQrData->setCharacterSet('UTF8'); // @phpstan-ignore-line
+        $sepaQrData->setCharacterSet(9);
     }
 
     public function testSetBic(): void
