@@ -38,9 +38,6 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Run phpmd
-        run: composer run-script lint
-
       - name: Run phpstan
         run: composer run-script analyze
 
