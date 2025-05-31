@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
-namespace SepaQr\Test;
+namespace SepaQr;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use SepaQr\Data;
-use SepaQr\Exception;
 
+#[CoversClass(Data::class)]
 class DataTest extends TestCase
 {
     public function testSetCharacterSet(): void
