@@ -56,7 +56,7 @@ class Data
 
     public function setVersion(int $version = 2): static
     {
-        if (!in_array($version, range(1, 2))) {
+        if ($version < 1 || $version > 2) {
             throw new InvalidArgumentException('Invalid version');
         }
 
@@ -67,7 +67,7 @@ class Data
 
     public function setCharacterSet(int $characterSet = self::UTF_8): static
     {
-        if (!in_array($characterSet, range(1, 8))) {
+        if ($characterSet < 1 || $characterSet > 8) {
             throw new InvalidArgumentException('Invalid character set');
         }
 
