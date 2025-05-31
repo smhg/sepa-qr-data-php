@@ -209,16 +209,16 @@ class SepaQrData
 
         $values = array_merge($defaults, $this->sepaValues);
 
-        if ($values['version'] === 1 && !$values['bic']) {
-            throw new LogicException("BIC of the beneficiary is required.");
-        }
-
         if (!$values['name']) {
             throw new LogicException('Name of the beneficiary is required.');
         }
 
         if (!$values['iban']) {
             throw new LogicException('Account number of the beneficiary is required.');
+        }
+
+        if ($values['version'] === 1 && !$values['bic']) {
+            throw new LogicException("BIC of the beneficiary is required.");
         }
 
         /** @var float */

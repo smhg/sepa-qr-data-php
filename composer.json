@@ -16,10 +16,16 @@
             "SepaQr\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "SepaQr\\": "tests/"
+        }
+    },
     "scripts": {
         "test": "phpunit",
         "lint": "phpmd src,tests ansi phpmd.xml",
-        "analyze": "phpstan analyze"
+        "analyze": "phpstan analyze",
+        "coverage": "XDEBUG_MODE=coverage phpunit --coverage-html coverage-report"
     },
     "require-dev": {
         "phpmd/phpmd": "@stable",
