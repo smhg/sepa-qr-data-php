@@ -22,8 +22,11 @@ class Data
         'identification' => 'SCT'
     );
 
-    public static function formatMoney(string $currency = 'EUR', float $value = 0): string
+    protected function formatMoney(float $value = 0): string
     {
+        /** @var string */
+        $currency = $this->sepaValues['currency'] ?? 'EUR';
+
         return sprintf(
             '%s%s',
             strtoupper($currency),
@@ -219,6 +222,9 @@ class Data
             throw new Exception('Missing account number of the beneficiary');
         }
 
+        /** @var float */
+        $amount = $values['amount'];
+
         return rtrim(implode("\n", array(
             $values['serviceTag'],
             sprintf('%03d', $values['version']),
@@ -227,7 +233,7 @@ class Data
             $values['bic'],
             $values['name'],
             $values['iban'],
-            self::formatMoney((string)$values['currency'], (float)$values['amount']),
+            self::formatMoney($amount),
             $values['purpose'],
             $values['remittanceReference'],
             $values['remittanceText'],

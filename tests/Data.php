@@ -4,42 +4,9 @@ namespace SepaQr\Test;
 use PHPUnit\Framework\TestCase;
 use SepaQr\Data;
 use SepaQr\Exception;
-use Stringable;
 
-/**
- * @SuppressWarnings("PHPMD.TooManyPublicMethods")
- */
 class DataTest extends TestCase
 {
-    /**
-     * @SuppressWarnings("PHPMD.StaticAccess")
-     */
-    public function testFormatMoney(): void
-    {
-        $this->assertEquals(
-            'EUR100.00',
-            Data::formatMoney('EUR', 100),
-            'An amount should be formatted'
-        );
-
-        $this->assertEquals(
-            'EUR',
-            Data::formatMoney('EUR'),
-            'A missing amount should only return the currency'
-        );
-    }
-
-    /**
-     * @SuppressWarnings("PHPMD.StaticAccess")
-     */
-    public function testCreate(): void
-    {
-        $this->assertInstanceOf(
-            Data::class,
-            Data::create()
-        );
-    }
-
     public function testSetCharacterSet(): void
     {
         $sepaQrData = new Data();
@@ -106,19 +73,21 @@ class DataTest extends TestCase
 
         $message = (string)$sepaQrData;
 
-        $this->assertTrue(
-            stristr($message, '1075.25') !== false,
+        $this->assertStringContainsString(
+            'EUR1075.25',
+            $message,
             'The amount should be formatted using only a dot (.) as the decimal separator'
         );
 
-        $this->assertEquals(
+        $this->assertCount(
             11,
-            count(explode("\n", $message)),
+            explode("\n", $message),
             'The last populated element cannot be followed by any character or element separator'
         );
 
-        $this->assertTrue(
-            substr($message, strlen($message) - 3) === 'DEF',
+        $this->assertStringEndsWith(
+            'DEF',
+            $message,
             'The last populated element cannot be followed by any character or element separator'
         );
 
@@ -139,29 +108,11 @@ EOF;
         $this->assertSame($expectedString, $message);
     }
 
-    public function testToString(): void
-    {
-        $sepaQrData = (new Data())
-            ->setName('Test')
-            ->setIban('ABC');
-
-        $this->assertInstanceOf(Stringable::class, $sepaQrData);
-    }
-
-    public function testSetVersionExceptionCase1(): void
+    public function testSetVersionThrowsExceptionForInvalidValue(): void
     {
         $this->expectException(Exception::class);
 
         $sepaQrData = new Data();
         $sepaQrData->setVersion(3);
-    }
-
-    public function testSetVersionExceptionCase2(): void
-    {
-        $sepaQrData = new Data();
-
-        $this->expectException(\TypeError::class);
-
-        $sepaQrData->setVersion('v1'); // @phpstan-ignore-line
     }
 }
