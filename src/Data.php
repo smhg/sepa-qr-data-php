@@ -1,5 +1,9 @@
 <?php declare(strict_types=1);
+
 namespace SepaQr;
+
+use InvalidArgumentException;
+use LogicException;
 
 class Data
 {
@@ -42,7 +46,7 @@ class Data
     public function setServiceTag(string $serviceTag = 'BCD'): static
     {
         if ($serviceTag !== 'BCD') {
-            throw new Exception('Invalid service tag');
+            throw new InvalidArgumentException('Invalid service tag');
         }
 
         $this->sepaValues['serviceTag'] = $serviceTag;
@@ -53,7 +57,7 @@ class Data
     public function setVersion(int $version = 2): static
     {
         if (!in_array($version, range(1, 2))) {
-            throw new Exception('Invalid version');
+            throw new InvalidArgumentException('Invalid version');
         }
 
         $this->sepaValues['version'] = $version;
@@ -64,7 +68,7 @@ class Data
     public function setCharacterSet(int $characterSet = self::UTF_8): static
     {
         if (!in_array($characterSet, range(1, 8))) {
-            throw new Exception('Invalid character set');
+            throw new InvalidArgumentException('Invalid character set');
         }
 
         $this->sepaValues['characterSet'] = $characterSet;
@@ -75,7 +79,7 @@ class Data
     public function setIdentification(string $identification = 'SCT'): static
     {
         if ($identification !== 'SCT') {
-            throw new Exception('Invalid identification code');
+            throw new InvalidArgumentException('Invalid identification code');
         }
 
         $this->sepaValues['identification'] = $identification;
@@ -86,7 +90,7 @@ class Data
     public function setBic(string $bic): static
     {
         if (strlen($bic) !== 8 && strlen($bic) !== 11) {
-            throw new Exception('BIC of the beneficiary can only be 8 or 11 characters');
+            throw new InvalidArgumentException('BIC of the beneficiary can only be 8 or 11 characters');
         }
 
         $this->sepaValues['bic'] = $bic;
@@ -97,7 +101,7 @@ class Data
     public function setName(string $name): static
     {
         if (strlen($name) > 70) {
-            throw new Exception('Name of the beneficiary cannot be longer than 70 characters');
+            throw new InvalidArgumentException('Name of the beneficiary cannot be longer than 70 characters');
         }
 
         $this->sepaValues['name'] = $name;
@@ -108,7 +112,7 @@ class Data
     public function setIban(string $iban): static
     {
         if (strlen($iban) > 34) {
-            throw new Exception('Account number of the beneficiary cannot be longer than 34 characters');
+            throw new InvalidArgumentException('Account number of the beneficiary cannot be longer than 34 characters');
         }
 
         $this->sepaValues['iban'] = $iban;
@@ -119,7 +123,7 @@ class Data
     public function setCurrency(string $currency): static
     {
         if (strlen($currency) !== 3) {
-            throw new Exception('Currency of the credit transfer can only be a valid ISO 4217 code');
+            throw new InvalidArgumentException('Currency of the credit transfer can only be a valid ISO 4217 code');
         }
 
         $this->sepaValues['currency'] = $currency;
@@ -130,11 +134,11 @@ class Data
     public function setAmount(float $amount): static
     {
         if ($amount < 0.01) {
-            throw new Exception('Amount of the credit transfer cannot be smaller than 0.01 Euro');
+            throw new InvalidArgumentException('Amount of the credit transfer cannot be smaller than 0.01 Euro');
         }
 
         if ($amount > 999999999.99) {
-            throw new Exception('Amount of the credit transfer cannot be higher than 999999999.99 Euro');
+            throw new InvalidArgumentException('Amount of the credit transfer cannot be higher than 999999999.99 Euro');
         }
 
         $this->sepaValues['amount'] = $amount;
@@ -145,7 +149,7 @@ class Data
     public function setPurpose(string $purpose): static
     {
         if (strlen($purpose) !== 4) {
-            throw new Exception('Purpose code can only be 4 characters');
+            throw new InvalidArgumentException('Purpose code can only be 4 characters');
         }
 
         $this->sepaValues['purpose'] = $purpose;
@@ -156,11 +160,11 @@ class Data
     public function setRemittanceReference(string $remittanceReference): static
     {
         if (strlen($remittanceReference) > 35) {
-            throw new Exception('Structured remittance information cannot be longer than 35 characters');
+            throw new InvalidArgumentException('Structured remittance information cannot be longer than 35 characters');
         }
 
         if (isset($this->sepaValues['remittanceText'])) {
-            throw new Exception('Use either structured or unstructured remittance information');
+            throw new InvalidArgumentException('Use either structured or unstructured remittance information');
         }
 
         $this->sepaValues['remittanceReference'] = (string)$remittanceReference;
@@ -171,11 +175,11 @@ class Data
     public function setRemittanceText(string $remittanceText): static
     {
         if (strlen($remittanceText) > 140) {
-            throw new Exception('Unstructured remittance information cannot be longer than 140 characters');
+            throw new InvalidArgumentException('Unstructured remittance information cannot be longer than 140 characters');
         }
 
         if (isset($this->sepaValues['remittanceReference'])) {
-            throw new Exception('Use either structured or unstructured remittance information');
+            throw new InvalidArgumentException('Use either structured or unstructured remittance information');
         }
 
         $this->sepaValues['remittanceText'] = $remittanceText;
@@ -186,7 +190,7 @@ class Data
     public function setInformation(string $information): static
     {
         if (strlen($information) > 70) {
-            throw new Exception('Beneficiary to originator information cannot be longer than 70 characters');
+            throw new InvalidArgumentException('Beneficiary to originator information cannot be longer than 70 characters');
         }
 
         $this->sepaValues['information'] = $information;
@@ -211,15 +215,15 @@ class Data
         $values = array_merge($defaults, $this->sepaValues);
 
         if ($values['version'] === 1 && !$values['bic']) {
-            throw new Exception('Missing BIC of the beneficiary bank');
+            throw new LogicException('Missing BIC of the beneficiary bank');
         }
 
         if (!$values['name']) {
-            throw new Exception('Missing name of the beneficiary');
+            throw new LogicException('Missing name of the beneficiary');
         }
 
         if (!$values['iban']) {
-            throw new Exception('Missing account number of the beneficiary');
+            throw new LogicException('Missing account number of the beneficiary');
         }
 
         /** @var float */

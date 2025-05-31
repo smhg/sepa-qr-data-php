@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
+
 namespace SepaQr;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +15,7 @@ class DataTest extends TestCase
 
         $sepaQrData->setCharacterSet(Data::ISO8859_1);
 
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $sepaQrData->setCharacterSet(9);
     }
@@ -25,7 +27,7 @@ class DataTest extends TestCase
         $sepaQrData->setBic('ABCDEFGH'); // 8 characters
         $sepaQrData->setBic('ABCDEFGHIJK'); // 11 characters
 
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $sepaQrData->setBic('ABCDEFGHI'); // 9 characters
     }
@@ -36,7 +38,7 @@ class DataTest extends TestCase
 
         $sepaQrData->setCurrency('USD');
 
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $sepaQrData->setCurrency('ABCDEF');
     }
@@ -45,7 +47,7 @@ class DataTest extends TestCase
     {
         $sepaQrData = new Data();
 
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $sepaQrData->setRemittanceReference('ABC')
             ->setRemittanceText('DEF');
@@ -57,7 +59,7 @@ class DataTest extends TestCase
 
         $sepaQrData->setPurpose('ACMT');
 
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $sepaQrData->setPurpose('custom');
     }
@@ -110,7 +112,7 @@ EOF;
 
     public function testSetVersionThrowsExceptionForInvalidValue(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $sepaQrData = new Data();
         $sepaQrData->setVersion(3);
